@@ -18,21 +18,21 @@ export async function POST(req, res) {
   }
 }
 
-// export async function GET(req, res) {
-//   console.log("id==========>", req);
-//   try {
-//     await DBConnect();
-//     const id = req.query.id;
-//     console.log("id==========>", id);
-//     const users = await Users.find({ _id: id });
-//     console.log("users ==============>", users);
-//     // return res.status(200).json(users);
-//     return NextResponse.json(users);
-//   } catch (error) {
-//     console.log("error is >>>>>>>>>>>>>>>>>>>>>", error);
-//     return NextResponse.json(
-//       { message: "server error, please try again!" },
-//       { status: 500 }
-//     );
-//   }
-// }
+export async function GET(req, res) {
+  console.log("id==========>", req);
+  try {
+    await DBConnect();
+    const id = req.query.id;
+    console.log("id==========>", id);
+    const users = await Users.find({ _id: id });
+    console.log("users ==============>", users);
+    // return res.status(200).json(users);
+    return NextResponse.json(users);
+  } catch (error) {
+    console.log("error is >>>>>>>>>>>>>>>>>>>>>", error);
+    return NextResponse.json(
+      { message: "server error, please try again!" },
+      { status: 500 }
+    );
+  }
+}
