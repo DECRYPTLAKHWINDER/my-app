@@ -12,6 +12,7 @@ const Contact = () => {
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+  const [submitMessage, setSubmitMessage] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -28,8 +29,14 @@ const Contact = () => {
       console.log("response=============>", response);
       if (response.status === 200) {
         console.log("Successfully created");
+        setName("");
+        setEmail("");
+        setSubject("");
+        setMessage("");
+        setSubmitMessage("Successfully created");
       } else {
         console.log("Failed to create");
+        setSubmitMessage("error creating");
       }
     } catch (err) {
       console.log(err);
@@ -79,6 +86,7 @@ const Contact = () => {
             Submit
           </button>
         </div>
+        <p>{submitMessage}</p>
       </div>
     </div>
   );
