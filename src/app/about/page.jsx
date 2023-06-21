@@ -1,11 +1,11 @@
-"use client";
 import React from "react";
-const Home = async () => {
- 
+
+const About = () => {
   return (
     <div className="pageBody">
-      <h1>MainPage</h1>
+      <h1>About</h1>
     </div>
   );
 };
-export default Home;
+
+export default About;
