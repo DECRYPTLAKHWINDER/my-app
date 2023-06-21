@@ -2,6 +2,7 @@
 import Users from "@/models/user";
 import DBConnect from "@/utils/db";
 import { NextResponse } from "next/server";
+// import { useRouter } from 'next/navigate';
 export async function POST(req, res) {
   try {
     const body = await req.json();
@@ -18,15 +19,13 @@ export async function POST(req, res) {
   }
 }
 
-export async function GET(req, res) {
-  console.log("id==========>", req);
+export async function GET(req) {
   try {
+    const queryParam = req.nextUrl.searchParams.get("id");
+    console.log("id==========>", queryParam);
     await DBConnect();
-    const id = req.query.id;
-    console.log("id==========>", id);
-    const users = await Users.find({ _id: id });
+    const users = await Users.find({ _id: queryParam });
     console.log("users ==============>", users);
-    // return res.status(200).json(users);
     return NextResponse.json(users);
   } catch (error) {
     console.log("error is >>>>>>>>>>>>>>>>>>>>>", error);
