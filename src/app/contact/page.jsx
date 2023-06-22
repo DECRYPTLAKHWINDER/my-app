@@ -15,16 +15,13 @@ const Contact = () => {
   const [submitMessage, setSubmitMessage] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const userData = { name, email, subject, message };
     try {
       const response = await fetch("/api/user", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          Name: name,
-          Email: email,
-          Subject: subject,
-          Message: message,
-        }),
+
+        body: JSON.stringify(userData),
       });
       console.log("response=============>", response);
       if (response.status === 200) {

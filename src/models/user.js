@@ -10,6 +10,7 @@ const userDataSchema = new Schema({
     type: String,
   },
   Message: { type: String },
+  image: { type: String },
 });
 
 const Users = models.Users || model("Users", userDataSchema);

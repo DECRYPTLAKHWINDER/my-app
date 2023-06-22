@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
-const BlogPost = () => {
-  return (
-    <div>BlogPost</div>
-  )
-}
+const BlogPost = ({ params }) => {
+  return <div>My Slug ID Is in BlogPost {params.id}</div>;
+};
 
-export default BlogPost
+export default BlogPost;
