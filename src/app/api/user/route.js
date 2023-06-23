@@ -1,44 +1,55 @@
 // import { User } from "@/utils/actions";
-const multer = require("multer");
-import upload from "@/helpers/upload";
+// const multer = require("multer");
+// import upload from "@/helpers/upload";
 import Users from "@/models/user";
 import DBConnect from "@/utils/db";
 import { NextResponse } from "next/server";
 
 // import { useRouter } from 'next/navigate';
 export async function POST(req, res) {
-  console.log("req.body>>>>>>",await req.json());
   try {
-    await upload.single("image")(req, res, function (err) {
-      if (err instanceof multer.MulterError) {
-        // A Multer error occurred when uploading.
-        console.log("A Multer error occurred when uploading:", err);
-        return NextResponse.json(
-          { message: "An error occurred when uploading the file." },
-          { status: 500 }
-        );
-      } else if (err) {
-        // An unknown error occurred when uploading.
-        console.log("An unknown error occurred when uploading:", err);
-        return NextResponse.json(
-          { message: "An unknown error occurred when uploading the file." },
-          { status: 500 }
-        );
-      }
-    });
-
-    const imageUrl = req.file ? req.file.path : null;
-
+    const body = await req.json();
+    if (!body.name) {
+      return NextResponse.json(
+        { message: "Name is required" },
+        { status: 409 }
+      );
+    }
+    if (!body.email) {
+      return NextResponse.json(
+        { message: "Email is required" },
+        { status: 409 }
+      );
+    }
+    if (!body.subject) {
+      return NextResponse.json(
+        { message: "Subject is required" },
+        { status: 409 }
+      );
+    }
+    if (!body.message) {
+      return NextResponse.json(
+        { message: "Message is required" },
+        { status: 409 }
+      );
+    }
     await DBConnect();
-
-    const { name, email, subject, message } = body;
-    await Users.create({
-      Name: name,
-      Email: email,
-      Subject: subject,
-      Message: message,
-      image: imageUrl,
+    let isExist = await Users.exists({
+      Email: body.email,
     });
+    if (isExist) {
+      return NextResponse.json(
+        { message: "Email Already Exists" },
+        { status: 409 }
+      );
+    }
+    await Users.create({
+      Name: body.name,
+      Email: body.email,
+      Subject: body.subject,
+      Message: body.message,
+    });
+    console.log("body is ==============>", body);
     return NextResponse.json({ message: "success" }, { status: 200 });
   } catch (error) {
     console.log("error is >>>>>>>>>>>>>>>>>>>>>", error);
